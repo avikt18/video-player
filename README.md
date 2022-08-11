@@ -12,5 +12,5 @@ To start the app in dev mode you can run the command:
 ### `npm start`
 
 This app uses json-server as the mock backend. To run the server locally, run:
-json-server --watch db.json
+### `json-server --watch db.json`
 

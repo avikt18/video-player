@@ -1,1 +1,1 @@
-export const URL = "http://localhost:4000"
+export const URL = "https://my-json-server.typicode.com/avikt18/frontend-task"

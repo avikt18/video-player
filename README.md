@@ -11,6 +11,5 @@ This is a video player/streamer application where you can:
 To start the app in dev mode you can run the command:
 ### `npm start`
 
-This app uses json-server as the mock backend. To run the server locally, run:
-### `json-server --watch db.json`
+This app uses json-server as the mock backend.
 

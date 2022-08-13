@@ -9,6 +9,12 @@
   align-items: center;
 }
 
+.logo {
+  font-family:  'Trebuchet MS', sans-serif !important;
+  color: white !important;
+  margin: 0 !important;
+}
+
 .content {
   padding: 1em 0.5em;
   margin-top: 64px;

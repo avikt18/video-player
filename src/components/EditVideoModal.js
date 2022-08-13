@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Modal, Form, Input, Select, message, Button } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { createVideoThunk, editVideoThunk } from '../redux/videoSlice';
+import { editVideoThunk } from '../redux/videoSlice';
 import { createBucketThunk } from '../redux/bucketSlice';
 import { PlusOutlined } from '@ant-design/icons';
 const { Option } = Select

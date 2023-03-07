@@ -1,5 +1,5 @@
 import { EditOutlined } from '@ant-design/icons';
-import { Card, Checkbox, Modal } from "antd";
+import { Card, Checkbox, Modal, Typography} from "antd";
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,6 +15,7 @@ function VideoCard({ video }) {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     const [selected, setSelected] = useState(false)
     const dispatch = useDispatch()
+    const {Link} = Typography
 
     const onChange = (e) => {
         e.stopPropagation()
@@ -65,7 +66,7 @@ function VideoCard({ video }) {
                 onClick={playVideo}
                 extra={<Checkbox checked={selected} onClick={onChange} />}
             >
-                <a>{trim(video.link)}</a>
+                <Link>{trim(video.link)}</Link>
             </Card>
         </>
     )

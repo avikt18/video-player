@@ -1,14 +1,14 @@
-import { Layout, message } from 'antd';
-import 'antd/dist/antd.min.css';
+import { Layout } from 'antd';
+import 'antd/dist/reset.css';
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { Route, Routes } from "react-router-dom";
 import CardList from "./components/CardList";
 import CreateVideoModal from "./components/CreateVideoModal";
 import History from "./components/History";
 import Navbar from './components/Navbar';
-import { fetchBucketsThunk, setActiveBucketId, setBucketNameThunk } from "./redux/bucketSlice";
-import { deleteVideosThunk, fetchVideosThunk, removeSelectedVideos } from "./redux/videoSlice";
+import { fetchBucketsThunk } from "./redux/bucketSlice";
+import { fetchVideosThunk } from "./redux/videoSlice";
 import "./styles.css";
 const { Content, Footer } = Layout
 

@@ -1,6 +1,7 @@
 .layout {
   min-height: 100vh;
   overflow-x: hidden;
+  font-family:  'Inter', sans-serif;
 }
 
 .header {
@@ -10,13 +11,12 @@
 }
 
 .logo {
-  font-family:  'Trebuchet MS', sans-serif !important;
   color: white !important;
   margin: 0 !important;
 }
 
 .content {
-  padding: 1em 0.5em;
+  padding: 1em;
   margin-top: 64px;
 }
 

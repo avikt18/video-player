@@ -7,7 +7,7 @@ import { setActiveBucketId, setBucketNameThunk } from '../redux/bucketSlice';
 import { deleteVideosThunk, removeSelectedVideos } from "../redux/videoSlice";
 const { Header } = Layout
 const { Option } = Select
-const { Title } = Typography;
+const { Title} = Typography;
 
 
 function Navbar({ setIsOpen }) {
@@ -57,7 +57,7 @@ function Navbar({ setIsOpen }) {
     <Header className="header" style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
       <div>
         <Link to='/'>
-          <Typography.Title level={3} className='logo'>Logo</Typography.Title>
+          <Typography.Title level={3} className='logo'>Frontend Task</Typography.Title>
         </Link>
       </div>
       {isUserOnVideoPage ?
@@ -70,12 +70,12 @@ function Navbar({ setIsOpen }) {
         >
           {bucketName}
         </Title> :
-        <Title level={5} style={{ color: "white", opacity: .8, margin: 0 }}>History </Title>
+        <Title level={5} style={{ color: "white", opacity: .8, margin: 0 }}>History</Title>
       }
       <div>
         {isUserOnVideoPage ?
           <>
-            {selectedVideos.length &&
+            {selectedVideos.length ?
               <>
                 <Button
                   onClick={deleteVideo}
@@ -90,7 +90,7 @@ function Navbar({ setIsOpen }) {
                 >
                   CANCEL
                 </Button>
-              </>
+              </> : null
             }
             <Button
               type="primary"
@@ -100,6 +100,7 @@ function Navbar({ setIsOpen }) {
             >
               New Video
             </Button>
+            <Title style={{display: 'inline', color: 'white', margin: '.5rem'}} level={5}>Buckets:</Title>
             <Select
               defaultValue={activeBucketId}
               value={bucketName}
@@ -115,7 +116,7 @@ function Navbar({ setIsOpen }) {
               {bucketList?.map(bucket => <Option key={bucket.id} value={bucket.id}>{bucket.name}</Option>)}
             </Select>
             <Button
-              type="secondary"
+              type="default"
               style={{ margin: "0 .8em" }}
               icon={<HistoryOutlined />}
               onClick={() => navigate("/history")}
@@ -124,7 +125,6 @@ function Navbar({ setIsOpen }) {
             </Button>
           </> :
           <>
-
             <Button
               type="text"
               style={{ color: "white", fontWeight: "bold" }}

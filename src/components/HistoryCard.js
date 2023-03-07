@@ -1,14 +1,15 @@
 import React from 'react'
-import { Card } from 'antd'
+import { Card, Typography } from 'antd'
 import trim from '../utils/stringTrimmer'
 
 function HistoryCard({video}) {
+    const {Link} = Typography
     return (
         <Card
             title={video.name}
             extra={<p style={{opacity: 0.6}}>{video.playedAt}</p>}
         >
-            <a>{trim(video.link, 60)}</a>
+            <Link>{trim(video.link, 60)}</Link>
         </Card>
     )
 }

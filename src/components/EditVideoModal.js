@@ -1,13 +1,19 @@
-import { Form, Input, message, Modal, Select } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { Modal, Form, Input, Select, message, Button } from "antd";
+import { useSelector, useDispatch } from "react-redux";
 import { editVideoThunk } from "../redux/videoSlice";
+import { createBucketThunk } from "../redux/bucketSlice";
+import { PlusOutlined } from "@ant-design/icons";
+import { useParams } from "react-router-dom";
 const { Option } = Select;
 
 function EditVideoModal({ isOpen, setIsOpen, video }) {
   const bucketList = useSelector((state) => state.buckets.bucketList);
   const loading = useSelector((state) => state.videos.loading);
+  const [newBucket, setNewBucket] = useState(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const { id } = useParams();
 
   const handleEdit = (values) => {
     console.log(values);

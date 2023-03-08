@@ -1,8 +1,11 @@
-import { Form, Input, message, Modal} from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { createBucketThunk } from "../redux/bucketSlice";
+import { useState } from "react";
+import { Modal, Form, Input, Select, message, Button } from "antd";
+import { useSelector, useDispatch } from "react-redux";
 import { createVideoThunk } from "../redux/videoSlice";
+import { createBucketThunk } from "../redux/bucketSlice";
+import { PlusOutlined } from "@ant-design/icons";
+import { useParams } from "react-router-dom";
+const { Option } = Select;
 
 function CreateVideoModal({ isOpen, setIsOpen }) {
   const loading = useSelector((state) => state.videos.loading);
@@ -82,6 +85,44 @@ function CreateVideoModal({ isOpen, setIsOpen }) {
         >
           <Input placeholder="https://youtube.com/embed/" />
         </Form.Item>
+        {/* <Form.Item
+                    name={newBucket ? "newBucketName" : "bucketId"}
+                    label="Bucket Name"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please select bucket name',
+                        },
+                    ]}
+                >
+                    {newBucket ?
+                        <Input placeholder='New Bucket' />
+                        :
+                        <Select
+                            placeholder="Select a bucket"
+                        >
+                            {bucketList?.map((bucket,id) => <Option key={bucket.id || id} value={bucket.id}>{bucket.name}</Option>)}
+                        </Select>
+                    }
+                </Form.Item>
+                {!newBucket ?
+                    <Button
+                        type="dashed"
+                        icon={<PlusOutlined />}
+                        block
+                        onClick={() => setNewBucket(true)}
+                    >
+                        New Bucket
+                    </Button>
+                    :
+                    <Button
+                        type="dashed"
+                        block
+                        onClick={() => setNewBucket(false)}
+                    >
+                        Select bucket
+                    </Button>
+                } */}
       </Form>
     </Modal>
   );

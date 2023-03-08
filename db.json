@@ -1,4 +1,17 @@
 {
   "videos": [],
-  "buckets": []
+  "buckets": [
+    {
+      "id": "d612cd91-5e14-4a36-a943-ab3c22232a2d",
+      "name": "Bucket1"
+    },
+    {
+      "id": "a832c0a7-7568-4b5f-bee4-798c42c2eb26",
+      "name": "Bucket 2"
+    },
+    {
+      "id": "dbb7dae0-3e43-4cf9-87e0-dee69de6e4a2",
+      "name": "Bucket 3"
+    }
+  ]
 }

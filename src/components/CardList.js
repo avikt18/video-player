@@ -9,25 +9,33 @@ import VideoCard from "./Card";
 import CreateBucketModal from "./CreateBucketModal";
 import CreateVideoModal from "./CreateVideoModal";
 
-const filterBucketVideos = (videos, bucketId) => {
-  if (bucketId === 0) return videos;
-  return videos.filter((video) => video.bucketId === bucketId);
-};
-
 function CardList({ isVideoList, isBucketList }) {
   const videos = useSelector((state) => state.videos.videoList);
   const buckets = useSelector((state) => state.buckets.bucketList);
   const activeBucketId = useSelector((state) => state.buckets.activeBucketId);
   const [isBucketModalOpen, setIsBucketModalOpen] = useState(false);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+
+  const filterBucketVideos = (videos, bucketId) => {
+    if (bucketId === 0) return videos;
+    return videos.filter((video) => video.bucketId === bucketId);
+  };
+
   const [bucketVideos, setBucketVideos] = useState(() =>
     filterBucketVideos(videos, activeBucketId)
   );
+  const [currentBucketName, setCurrentBucketName] = useState("");
   const { id } = useParams();
-  console.log(id);
+
+
   useEffect(() => {
     setBucketVideos(filterBucketVideos(videos, id));
-  }, [id, videos]);
+    if(isVideoList){
+        let bucketName = buckets.filter((bucket) => bucket.id === id)[0]
+        if(bucketName?.name)
+            setCurrentBucketName(bucketName?.name);
+    }
+  }, [id, videos, buckets, isVideoList]);
 
   return (
     <>
@@ -44,7 +52,7 @@ function CardList({ isVideoList, isBucketList }) {
       <Row justify="space-between" gutter={[0, 10]}>
         <Col>
           <Title level={4} style={{}}>
-            {isBucketList ? "Buckets" : `Bucket - `}
+            {isBucketList ? "Buckets" : `Bucket - ${currentBucketName}`}
           </Title>
         </Col>
         <Col>

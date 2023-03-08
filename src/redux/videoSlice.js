@@ -39,10 +39,16 @@ const videoSlice = createSlice({
         setStatus: (state, action) => {
             state.loading = action.payload
         },
+        deleteBucketVideos: (state, action) => {
+            const bucketId = action.payload
+            console.log(bucketId)
+            state.videoList = state.videoList.filter(video=>video.id !== bucketId)
+            console.log(state.videoList)
+        }
     }
 })
 
-export const { setVideoList, setStatus, addVideo, editVideo, selectVideo, removeSelectedVideos, unselectVideo, deleteVideos } = videoSlice.actions
+export const { setVideoList, setStatus, addVideo, editVideo, selectVideo, removeSelectedVideos, unselectVideo, deleteVideos, deleteBucketVideos } = videoSlice.actions
 export default videoSlice.reducer
 
 
@@ -58,18 +64,11 @@ export const fetchVideosThunk = () => async (dispatch) => {
     dispatch(setStatus(false))
 }
 
-export const createVideoThunk = (newVideoData) => async (dispatch, getState) => {
+export const createVideoThunk = (newVideoData) => async (dispatch) => {
     dispatch(setStatus(true))
-    const { buckets: { bucketList } } = getState()
-    let newVideo = newVideoData.bucketId ?
-        newVideoData : {
-            name: newVideoData.name,
-            link: newVideoData.link,
-            bucketId: bucketList.length + 1
-        }
     try {
         const {data} = await axios.post(`${URL}/videos`,
-            JSON.stringify(newVideo),
+            JSON.stringify(newVideoData),
             { headers: { 'Content-type': 'application/json; charset=UTF-8' } }
         )
         dispatch(addVideo(data))
@@ -94,18 +93,28 @@ export const deleteVideosThunk = () => async (dispatch, getState) => {
     dispatch(setStatus(false))
 }
 
+export const deleteBucketVideosThunk = (bucketId) => async (dispatch, getState) => {
+    dispatch(setStatus(true))
+    const {videos: {videoList}} = getState()
+    let bucketVideos = videoList.filter(video => video.bucketId === bucketId)
+    bucketVideos = bucketVideos.map(video => video.id)
+    try {
+        bucketVideos.forEach(async (id) => {
+            await axios.delete(`${URL}/videos/${id}`)
+        })
+        dispatch(deleteBucketVideos(bucketId))
+    } catch (error) {
+        console.log(error)
+    }
+    dispatch(setStatus(false))
+}
+
 export const editVideoThunk = ({values, id}) => async (dispatch, getState) => {
     dispatch(setStatus(true))
-    const { buckets: { bucketList } } = getState()
-    let newVideo = values.bucketId ?
-        values : {
-            name: values.name,
-            link: values.link,
-            bucketId: bucketList.length + 1
-        }
+
     try {
         const {data} = await axios.put(`${URL}/videos/${id}`,
-            JSON.stringify(newVideo),
+            JSON.stringify(values),
             { headers: { 'Content-type': 'application/json; charset=UTF-8' } }
         )
         dispatch(editVideo(data))

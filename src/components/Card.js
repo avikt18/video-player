@@ -41,7 +41,7 @@ function VideoCard({ video }) {
         let newHistory = []
         newHistory.push({...video, playedAt: moment().format('MM/DD/YYYY, h:mm a')})
         let oldHistory = JSON.parse(localStorage.getItem("userHistory"))
-        console.log(oldHistory);
+        // console.log(oldHistory);
         if (oldHistory)
             newHistory = [...newHistory, ...oldHistory]
         console.log(newHistory);
@@ -51,7 +51,7 @@ function VideoCard({ video }) {
     return (
         <>
             {isPlayerModalOpen &&
-                <Modal width={848} title="Video" visible={isPlayerModalOpen} onCancel={() => setIsPlayerModalOpen(false)} footer={null}>
+                <Modal width={848} title="Video" open={isPlayerModalOpen} onCancel={() => setIsPlayerModalOpen(false)} footer={null}>
                     <iframe className="video-player" src={video.link} title={video.name} allowFullScreen></iframe>
                 </Modal>
             }

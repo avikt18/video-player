@@ -1,86 +1,64 @@
-import { HistoryOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Layout, message, Select, Typography } from 'antd';
+import { HistoryOutlined, MenuOutlined } from "@ant-design/icons";
+import { Button, Layout, message, Typography } from "antd";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { setActiveBucketId, setBucketNameThunk } from '../redux/bucketSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { deleteVideosThunk, removeSelectedVideos } from "../redux/videoSlice";
-const { Header } = Layout
-const { Option } = Select
-const { Title} = Typography;
+const { Header } = Layout;
 
-
-function Navbar({ setIsOpen }) {
-  const activeBucketId = useSelector(state => state.buckets.activeBucketId)
-  const loading = useSelector(state => state.videos.loading)
-  const bucketList = useSelector(state => state.buckets.bucketList)
-  const selectedVideos = useSelector(state => state.videos.selectedVideos)
+function Navbar() {
+  const selectedVideos = useSelector((state) => state.videos.selectedVideos);
   //To conditionally render new video button and bucket in navbar
-  const [isUserOnVideoPage, setIsUserOnVideoPage] = useState(false)
-  const location = useLocation()
+  const [showBtns, setShowBtns] = useState({
+    historyBtn: true,
+    bucketBtn: false,
+  });
+  const location = useLocation();
 
-  const [bucketName, setBucketName] = useState("All")
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleChange = (value) => {
-    dispatch(setActiveBucketId(value))
-    if (value)
-      setBucketName(bucketList?.find((list) => list.id === value).name)
-    else
-      setBucketName("All")
-  }
+
 
   const deleteVideo = () => {
-    message.info(`${selectedVideos.length} Video(s) Deleted`)
-    dispatch(deleteVideosThunk())
-  }
+    message.info(`${selectedVideos.length} Video(s) Deleted`);
+    dispatch(deleteVideosThunk());
+  };
 
   const cancelDelete = () => {
-    dispatch(removeSelectedVideos())
-  }
-
-  const changeBucketName = (value) => {
-    if (!value) return
-    setBucketName(value)
-    dispatch(setBucketNameThunk(value))
-  }
+    dispatch(removeSelectedVideos());
+  };
 
   useEffect(() => {
-    if (location.pathname === '/')
-      setIsUserOnVideoPage(true)
-    else
-      setIsUserOnVideoPage(false)
-  }, [location])
+    if (location.pathname === "/") setShowBtns(value => ({...value, bucketBtn: false}));
+    else setShowBtns(value => ({...value, bucketBtn: true}));
+    if (location.pathname === "/history") setShowBtns(value => ({...value, historyBtn: false}));
+    else setShowBtns(value => ({...value, historyBtn: true}));
+  }, [location]);
 
   return (
-    <Header className="header" style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+    <Header
+      className="header"
+      style={{
+        position: "fixed",
+        zIndex: 1,
+        width: "100%",
+        paddingInline: "1em",
+      }}
+    >
       <div>
-        <Link to='/'>
-          <Typography.Title level={3} className='logo'>Frontend Task</Typography.Title>
+        <Link to="/">
+          <Typography.Title level={3} className="logo">
+            Frontend Task
+          </Typography.Title>
         </Link>
       </div>
-      {isUserOnVideoPage ?
-        <Title level={5}
-          style={{ color: "white", opacity: .8, margin: 0 }}
-          editable={activeBucketId && {
-            tooltip: 'edit bucket name',
-            onChange: (value) => changeBucketName(value),
-          }}
-        >
-          {bucketName}
-        </Title> :
-        <Title level={5} style={{ color: "white", opacity: .8, margin: 0 }}>History</Title>
-      }
       <div>
-        {isUserOnVideoPage ?
+        {showBtns.bucketBtn ? (
           <>
-            {selectedVideos.length ?
+            {selectedVideos.length ? (
               <>
-                <Button
-                  onClick={deleteVideo}
-                  danger
-                >
+                <Button onClick={deleteVideo} danger>
                   DELETE
                 </Button>
                 <Button
@@ -90,53 +68,31 @@ function Navbar({ setIsOpen }) {
                 >
                   CANCEL
                 </Button>
-              </> : null
-            }
-            <Button
-              type="primary"
-              style={{ margin: "0 .8em" }}
-              icon={<PlusOutlined />}
-              onClick={() => setIsOpen(true)}
-            >
-              New Video
-            </Button>
-            <Title style={{display: 'inline', color: 'white', margin: '.5rem'}} level={5}>Buckets:</Title>
-            <Select
-              defaultValue={activeBucketId}
-              value={bucketName}
-              style={{
-                width: 120,
-              }}
-              onChange={handleChange}
-              loading={loading}
-            >
-              <Option value={0} >
-                All
-              </Option>
-              {bucketList?.map(bucket => <Option key={bucket.id} value={bucket.id}>{bucket.name}</Option>)}
-            </Select>
+              </>
+            ) : null}
             <Button
               type="default"
               style={{ margin: "0 .8em" }}
-              icon={<HistoryOutlined />}
-              onClick={() => navigate("/history")}
+              icon={<MenuOutlined />}
+              onClick={() => navigate("/")}
             >
-              History
-            </Button>
-          </> :
-          <>
-            <Button
-              type="text"
-              style={{ color: "white", fontWeight: "bold" }}
-              onClick={() => navigate('/')}
-            >
-              HOME
+              Buckets
             </Button>
           </>
-        }
+        ) : null}
+        {showBtns.historyBtn ? (
+          <Button
+            type="default"
+            style={{ margin: "0 .8em" }}
+            icon={<HistoryOutlined />}
+            onClick={() => navigate("/history")}
+          >
+            History
+          </Button>
+        ) : null}
       </div>
     </Header>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

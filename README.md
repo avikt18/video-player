@@ -1,4 +1,4 @@
-# Frontend Assignment
+# Video Player
 
 This is a video player/streamer application where you can:
 1.Create, edit and delete videos.
